@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="HandheldFriendly" content="true">
+
+	<title>Dashboard</title>
+
+	<script src="/socket.io/socket.io.js"></script>
+	
+	
+
+	
+	<link rel="stylesheet" type="text/css" href="/css/stat.min.css">
+	<script src="/js/stat.min.js"></script>
+	
+
+</head>
+<body ng-controller="StatCtrl">
+	<section>
+		<metric>
+			<cap>Сейчас играет</cap>
+			<val ng-bind="metrics['kue_now']"></val>	
+
+		</metric>
+		<metric>
+			<cap>В очереди</cap>
+			<val class="big" ng-bind="metrics['kue_len']"></val>	
+		</metric>
+		<metric>
+			<cap>Авторизаций</cap>
+			<val ng-bind="metrics['auths']"></val>	
+		</metric>
+	</section>
+
+	<section>
+		<metric>
+			<val ng-bind="metrics['kue_left']"></val>	
+			<cap>Покинули очередь</cap>
+
+		</metric>
+		<metric>
+			<val class="big"  ng-bind="metrics['games_all']"></val>	
+			<cap>Всего сыграно</cap>
+
+		</metric>
+		<metric>
+			<val ng-bind="metrics['games_win']"></val>	
+			<cap>Выйграно</cap>
+
+		</metric>
+	</section>
+	<section>
+		<p class="log" ng-repeat="log in logs">{{ log }}</p>
+	</section>
+</body>
+</html>

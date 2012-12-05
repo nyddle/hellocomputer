@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>PROMO</title>
+
+	<link rel=stylesheet href="/css/reset.css" type="text/css" media="screen">
+	<link rel=stylesheet href="/css/style.css" type="text/css" media="screen">
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="/js/vendor/list.js"></script>
+	<script src="/js/app.js"></script>
+
+</head>
+	<div id="page">
+		<div id="queue">
+			<div class="header black">
+				<a href="javascript:Kue.auth('facebook')">FB</a>
+				<a href="javascript:Kue.auth('vkontakte')">VK</a>
+				<a href="javascript:Kue.auth('fb')">Одн</a>
+				<a href="javascript:Kue.auth('fb')">Мой мир</a>
+			</div>
+
+			<div id="list">
+				<ul class="list"></ul>
+			</div>
+
+			<div style="display:none;">
+				<li id="item" class="white">
+					<div class="user_id" style="display:none;"></div>
+					<img class="img" src="/img/ava.jpg">
+					<div class="name"></div>
+					<div class="score"></div>
+				</li>
+			</div>
+		</div>
+		<div id="content" class="black">
+			<h1>Состояние игры</h1>
+			<h1 id="state"></h1>
+			<div ><h2 id="user-id">000000<h2></div>	
+		</div>
+	</div>
+	
+</body>
+</html>
