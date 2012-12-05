@@ -158,8 +158,7 @@ module.exports = function(socket) {
     });
 
     socket.on('control', function(data) {
-	console.log(data);
-	global.robotsocket && robotsocket.emit('control', data);
+	global.robotsock && robotsock.write(data + "\n");
 	console.log(data);
     });
     

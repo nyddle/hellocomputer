@@ -37,53 +37,37 @@ var util = require('util'),
     port = 80; 
     global.stat = stat;
 
-// Подключаем модуль и ставим на прослушивание 8080-порта - 80й обычно занят под http-сервер
-var robotio = require('socket.io').listen(8080); 
-// Отключаем вывод полного лога - пригодится в production'е
-robotio.set('log level', 1);
-// Навешиваем обработчик на подключение нового клиента
-robotio.sockets.on('connection', function (socket) {
-
-    var ID = (socket.id).toString().substr(0, 5);
-    var time = (new Date).toLocaleTimeString();
-
-    global.robotsocket = socket;
-    socket.json.send({'event': 'connected', 'name': ID, 'time': time});
-    socket.on();
 
 
-/*
-{"type":"new_prize", "rfid":"XXXXX"} - считанный id приза
-{"type":"start", "id_claw":"2"} - при запуске мы передаем id клешни (чтобы вы отображали соответствующий ей видеопоток)
-{"type":"disaster", "disaster":"message"} - если вдруг на руке поломка то мы один раз отправляем такое сообщение и сами переключаемся на другую руку.
-{"type":"workable"} - это пинг который шлем постоянно.
-/*
-    // Т.к. чат простой - в качестве ников пока используем первые 5 символов от ID сокета
-     // Посылаем клиенту сообщение о том, что он успешно подключился и его имя
-    socket.json.send({'event': 'connected', 'name': ID, 'time': time});
-    // Посылаем всем остальным пользователям, что подключился новый клиент и его имя
-    socket.broadcast.json.send({'event': 'userJoined', 'name': ID, 'time': time});
-    // Навешиваем обработчик на входящее сообщение
-    socket.on('message', functrobotion (msg) {
-        var time = (new Date).toLocaleTimeString();
-        // Уведомляем клиента, что его сообщение успешно дошло до сервера
-        socket.json.send({'event': 'messageSent', 'name': ID, 'text': msg, 'time': time});
-        // Отсылаем сообщение остальным участникам чата
-        socket.broadcast.json.send({'event': 'messageReceived', 'name': ID, 'text': msg, 'time': time})
+// ============== net socket ======
+var net = require('net');
+
+var PORT = 6969;
+
+var roboserver = net.createServer();
+roboserver.listen(PORT);
+console.log('Server listening on ' + roboserver.address().address +':'+ roboserver.address().port);
+roboserver.on('connection', function(sock) {
+    	global.robotsock = sock;
+	console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
+      
+	sock.on('data', function(data) {
+        
+        console.log('DATA ' + sock.remoteAddress + ': ' + data);
+        // Write the data back to the socket, the client will receive it as data from the roboserver
+       // sock.write('{"type":"control", "control":"movement_start", "direction":"left"}' + "\n");
+	  //sock.write(data);
+        
     });
-*/
-*/
-    // При отключении клиента - уведомляем остальных
-    socket.on('disconnect', function() {
-/*
-        var time = (new Date).toLocaleTimeString();
-        robotio.sockets.json.send({'event': 'userSplit', 'name': ID, 'time': time});
-*/
+    
+    // Add a 'close' event handler to this instance of socket
+    sock.on('close', function(data) {
+        console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
     });
+ 
+    // other stuff is the same from here
+    
 });
-
-global.robotio = robotio;
-
 // Configuration
 app.configure(function() {
     app.set('views', __dirname + '/views');
