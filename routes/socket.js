@@ -83,7 +83,6 @@ global.broadcast = broadcast;
 
 var getUserProfile = function(passport) {
     var res = {};
-/*
     res.name = 'displayName'; //TODO: passport.displayName;
 
     if (passport.provider == 'vkontakte'){
@@ -95,7 +94,6 @@ var getUserProfile = function(passport) {
         res.url = passport.profileUrl;
         res.img = passport.picture;
     }
-*/
     return res;
 }
 

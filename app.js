@@ -20,22 +20,23 @@ var util = require('util'),
     socket = require('./routes/socket.js'),
     passport = require('passport'),
    // AUTH
-    FacebookStrategy = require('passport-facebook').Strategy,
-    VKontakteStrategy = require('passport-vkontakte').Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy;
+    VKontakteStrategy = require('passport-vkontakte').Strategy;
     OdnoklassnikiStrategy = require('passport-odnoklassniki').Strategy;
 
     global.FacebookStrategy = FacebookStrategy;
-    //global.VkontakteStrategy = VkontakteStrategy;
+    global.VKontakteStrategy = VKontakteStrategy;
     global.OdnoklassnikiStrategy = OdnoklassnikiStrategy;
     //MoyMirStrategy = require('passport-moymir').Strategy;
   
     global.passport = passport;
-    var //auth = require('./routes/auth.js'),
+    var auth = require('./routes/auth.js'),
     // LIBS
     stat = require('./lib/stat'),
     Kue = require('./lib/kue'),
-    port = 80; 
+    port = 8080; 
     global.stat = stat;
+    global.auth = auth;
 
 
 

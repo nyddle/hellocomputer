@@ -59,8 +59,9 @@ app.get('/auth/vkontakte/callback', passport.authenticate('vkontakte', {
 	res.redirect('/auth/ok');
 });
 
-app.get('/auth/ok', auth.ok);
+app.get('/auth/ok', function (req, res) { res.render('auth.ok.html') }); // !!! it was auth.ok
 
 exports.ok = function(req, res) {
 	res.render('auth_ok.html');
 };
+
