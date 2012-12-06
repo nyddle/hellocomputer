@@ -9,11 +9,17 @@ var util = require('util'),
     secret = 'hs84jvb0xn30',
     cookieParser = express.cookieParser(secret);
 
+
     global.cookieParser = cookieParser;
 
     global.sessionStore = sessionStore;
     global.io = io;
     global.app = app;
+
+	app.configure(function(){
+	  //server.use('/media', express.static(__dirname + '/media'));
+	  app.use(express.static('/root/happynewgiftfull/public'));
+	});
 
     //ROUTES
     var routes = require('./routes'),
@@ -34,7 +40,7 @@ var util = require('util'),
     // LIBS
     stat = require('./lib/stat'),
     Kue = require('./lib/kue'),
-    port = 8080; 
+    port = 80; 
     global.stat = stat;
     global.auth = auth;
 
@@ -103,9 +109,14 @@ app.configure('production', function() {
     app.use(express.errorHandler());
 });
 
+global.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/')
+}
+
 
 app.get('/', routes.index);
-app.get('/stat', stat.stat);
+app.get('/stat', ensureAuthenticated, stat.stat);
 app.get('/partials/:name', routes.partials);
 
 
